@@ -1,0 +1,63 @@
+.user .card {
+    margin: 10px;
+    color:gold;
+}
+
+
+.card img {
+    opacity: 0.7;
+    border-radius: 50px 50px 0 0;
+}
+.user:hover img {
+    opacity: 1;
+    transform: scale(1.04);
+    transition: 200ms
+}
+.card
+{
+    border-radius: 50px;
+    background-color:gray;
+}
+.btn-sm
+{
+    
+    border-radius: 25px;
+    background-color: bisque;
+    color: rgb(112, 166, 228);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: solid;
+
+}
+table
+{   margin: 5px;
+    padding: 5px;
+    border: 1px solid grey;
+    background-color: grey;
+    
+}
+table .name
+{
+   color: gold;
+}
+table .email
+{
+   color: gold;
+}
+body
+{
+    background-color: rgb(253, 221, 226);
+}
+.bouton
+{
+border-radius: 25px;
+    background-color:lightpink;
+    color: rgb(112, 166, 228);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: solid;   
+}
+
+

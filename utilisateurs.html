@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Users list</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;color: rgb(250, 62, 91)">Users List</h1>
+        <div style="text-align: center;"class="mes-btn">
+        <button  class="btn bouton tbl" onclick="toggle(this)">Table</button>
+        <button class="btn bouton" onclick="filtreF(this)">Female</button>
+        <button class="btn bouton" onclick="filtreM(this)">male</button>
+        <button class="btn bouton" onclick="showUser(this)">ALL</button>
+        </div>
+        <div class="users">
+            <div class="row">
+                
+            </div>
+        </div>
+    </div>
+    <div id="gabaris" style="display:none">
+        <div class="col-md-4 user">
+            <div class="card" style="width: 18rem;">
+                <img src="" class="card-img-top" alt="">
+                <div class="card-body">
+                  <h5 class="card-title name">Tot momo</h5>
+                  <p class="card-text email"></p>
+                  <button class="btn btn-block btn-sm" data-toggle="modal" data-target="#Modal">modifier</button>
+            
+                </div>
+              </div>
+        </div>
+    </div>
+  <div id="tab" style="display:none;">
+      <table class="col-md-12 user">
+          <td><img class="img" src=""></td>
+          <td class="name"></td>
+          <td class="email"></td>
+          <td><button class="btn btn-block btn-sm" data-toggle="modal" data-target="#Modal" >modifier</button></td>
+      </table>
+  </div>
+
+      
+      <!-- Modal -->
+      <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+           <img id="img"src="" width="450px">
+            <form>
+            <div class="form-group">
+            <label>name</label>
+            <input id="name" class="form-control" type="text" placeholder="name">
+             <label>Email address</label>
+            <input id="email" type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            </div>
+            
+            </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" id="submit">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="users.js"></script>
+    <script src="functions.js"></script>
+    <script>
+        var dest = document.querySelector('.users .row');
+        var table=false,grid=false; 
+      //function toshow the grid
+        function showGrid(){
+            var gabari = document.querySelector('#gabaris .user')
+
+            users.forEach(function(user, index){
+                var copy = gabari.cloneNode(true)
+                copy.querySelector('.name').innerHTML = '<b>' + user.name.last + '</b> ' + user.name.first
+                copy.querySelector('.email').innerText = user.email
+                copy.querySelector('img').setAttribute('src', user.picture.large)
+                copy.classList.add(user.gender)
+                copy.querySelector('button').setAttribute('onclick', 'update(' + index + ')')
+                dest.appendChild(copy);
+            }) 
+            table=false;
+            grid=true;
+        }
+      showGrid()
+        //function to update
+        function update(index) {
+           var name=document.getElementById('name');
+           var email=document.getElementById('email');
+           var pic=document.getElementById('img');
+           name.value=users[index].name.last +' '+ users[index].name.first;
+           email.value=users[index].email;
+           pic.src=users[index].picture.large;
+           document.getElementById("submit").addEventListener("click", function(){
+                var a = name.value ;
+                var t = a.split(" ");
+                users[index].name.last = t[0];
+                users[index].name.first = t[1];
+                users[index].email = email.value;
+                users[index].picture.large=pic.src;
+                if(table==true)
+                {dest.innerHTML=null;
+                 showTable();
+                }else{
+                  dest.innerHTML=null;
+                 showGrid();
+                }
+
+                
+           })
+          
+           
+            
+            }
+        
+        function showTable(){
+            var gabari = document.querySelector('#tab table')
+
+            users.forEach(function(user, index){
+                var copy = gabari.cloneNode(true)
+                copy.querySelector('.name').innerHTML = '<b>' + user.name.last + '</b> ' + user.name.first
+                copy.querySelector('.email').innerText = user.email
+                copy.querySelector('img').setAttribute('src', user.picture.large)
+                copy.classList.add(user.gender)
+                copy.querySelector('button').setAttribute('onclick', 'update(' + index + ')')
+                dest.appendChild(copy);
+            })
+            table=true;
+            grid=false;
+        }
+        function toggle(t)
+        {if(t.innerText == "Grid"){
+          t.innerText = "Table";
+          dest.innerHTML = null;
+          showGrid();
+          }else{
+           t.innerText = "Grid";
+          dest.innerHTML = null;
+          showTable();
+          }
+        }
+      function showFeG()
+      {
+        var gabari = document.querySelector('#gabaris .user')
+
+    users.forEach(function(user, index){
+    var copy = gabari.cloneNode(true)
+    if(user.gender=="female")
+  {  copy.querySelector('.name').innerHTML = '<b>' + user.name.last + '</b> ' + user.name.first
+    copy.querySelector('.email').innerText = user.email
+    copy.querySelector('img').setAttribute('src', user.picture.large)
+    copy.classList.add(user.gender)
+    copy.querySelector('button').setAttribute('onclick', 'update(' + index + ')')
+    dest.appendChild(copy);}
+})
+
+      }
+      function showMaG()
+      {
+        var gabari = document.querySelector('#gabaris .user')
+
+    users.forEach(function(user, index){
+    var copy = gabari.cloneNode(true)
+    if(user.gender=="male")
+  {  copy.querySelector('.name').innerHTML = '<b>' + user.name.last + '</b> ' + user.name.first
+    copy.querySelector('.email').innerText = user.email
+    copy.querySelector('img').setAttribute('src', user.picture.large)
+    copy.classList.add(user.gender)
+    copy.querySelector('button').setAttribute('onclick', 'update(' + index + ')')
+    dest.appendChild(copy);}
+})
+
+      }
+      function showFeT()
+      {
+        var tab = document.querySelector('#tab table')
+
+    users.forEach(function(user, index){
+    var copy = tab.cloneNode(true)
+    if(user.gender=="female")
+  {  copy.querySelector('.name').innerHTML = '<b>' + user.name.last + '</b> ' + user.name.first
+    copy.querySelector('.email').innerText = user.email
+    copy.querySelector('img').setAttribute('src', user.picture.large)
+    copy.classList.add(user.gender)
+    copy.querySelector('button').setAttribute('onclick', 'update(' + index + ')')
+    dest.appendChild(copy);}
+})
+
+      }
+      function showMaT()
+      {
+        var tab = document.querySelector('#tab table')
+
+    users.forEach(function(user, index){
+    var copy = tab.cloneNode(true)
+    if(user.gender=="male")
+  {  copy.querySelector('.name').innerHTML = '<b>' + user.name.last + '</b> ' + user.name.first
+    copy.querySelector('.email').innerText = user.email
+    copy.querySelector('img').setAttribute('src', user.picture.large)
+    copy.classList.add(user.gender)
+    copy.querySelector('button').setAttribute('onclick', 'update(' + index + ')')
+    dest.appendChild(copy);}
+})
+
+      }
+        function filtreF(t)
+        { if(table==true)
+        { 
+          dest.innerHTML = null;
+          showFeT();
+        }else{
+          dest.innerHTML = null;
+          showFeG();
+        }
+
+        }
+        function filtreM(t)
+        { 
+          if(grid==true)
+        {
+          dest.innerHTML = null;
+          showMaG();
+        }else{
+          dest.innerHTML = null;
+          showMaT();
+        }
+
+        }
+        function showUser(t)
+        {
+          if(table==true)
+         {dest.innerHTML=null;
+          showTable();
+        }else{
+          dest.innerHTML=null;
+          showGrid();
+        }
+      
+      }
+      
+    </script>
+</body>
+</html>
